@@ -22,22 +22,34 @@ pipeline
                 echo 'Hello World'
                 }
         }
-        stage('script'){
-            steps{
-                script{
+        stage('script')
+        {
+            steps
+            {
+                script
+                {
                     def j = 20
                     for (int i=0; i<j; i++){
                         echo "The i value is $i"
                     }
                 }
-        stage('clone'){
-            steps{
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/yarli9951/sample.git']])
             }
-        }
-            }
-        }
+        }    
+        stage('clone')
+        {
+            steps
+            {
+                 script
+                {
+                    checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/yarli9951/sample.git']])
 
+                 }
+            }
+        }
     }
-
+        
 }
+
+    
+
+
