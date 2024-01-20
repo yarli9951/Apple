@@ -1,0 +1,35 @@
+pipeline 
+{
+    agent any
+    options {
+        // Timeout counter starts AFTER agent is allocated
+        timeout(time: 1, unit: 'SECONDS')
+    }
+
+    environment { 
+        CC = 'clang'
+    }
+    choice(name: 'j', choices: ['1', '20', '30'], description: 'Pick something')
+
+    stages 
+    {
+        stage('sample')
+        {
+           steps {
+                echo 'Hello World'
+                }
+        }
+        stage('script'){
+            steps{
+                script{
+                    def j = 20
+                    for (int i=0; i<j; i++){
+                        echo "The i value is $i"
+                    }
+                }
+            }
+        }
+
+    }
+
+}
