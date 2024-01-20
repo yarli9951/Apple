@@ -39,11 +39,9 @@ pipeline
         {
             steps
             {
-                 script
-                {
+                 
+                
                     checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/yarli9951/sample.git']])
-
-                 }
             }
         }
     }
