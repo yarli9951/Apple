@@ -6,16 +6,17 @@ pipeline
      //   timeout(time: 1, unit: 'SECONDS')
    // }
 
+   tools {
+        maven 'Maven'
+    }
+
     environment { 
         CC = 'clang'
     }
     parameters{
         choice(name: 'j', choices: ['1', '20', '30'], description: 'Pick something')
     }
-    tools {
-        jdk 'java'
-        maven 'Maven'
-    }
+   
     
 
     stages 
@@ -51,7 +52,8 @@ pipeline
         }
         stage('tool-validation') {
             steps {
-                sh '/opt/apache-maven-3.9.6/bin/mvn -version'
+                sh 'echo "this is a maven'
+                sh 'mvn --version'
                 
                 //sh 'java --version'
             }
