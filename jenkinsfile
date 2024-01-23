@@ -57,6 +57,12 @@ pipeline
                 sh 'java -version'
             }
     }
+    stage('build'){
+        steps{
+            sh 'mvn install -f my-app/pom.xml'
+        }
+    }
+    
         
 }
 
