@@ -52,10 +52,9 @@ pipeline
         }
         stage('tool-validation') {
             steps {
-                sh 'echo "this is a maven'
+              
                 sh 'mvn --version'
-                
-                //sh 'java --version'
+                sh 'java -version'
             }
     }
         
