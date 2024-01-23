@@ -51,7 +51,7 @@ pipeline
         }
         stage('tool-validation') {
             steps {
-                sh 'mvn --version'
+                sh 'mvn -version'
                 sh 'java --version'
             }
     }
