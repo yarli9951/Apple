@@ -1,0 +1,111 @@
+To install Istio on CentOS, you'll need to follow a series of steps to set up the Istio service mesh in your environment. Here's a step-by-step guide:
+
+### Prerequisites
+
+1. **CentOS System**: Ensure you have a CentOS system (7 or 8) with root or sudo access.
+2. **Kubernetes Cluster**: You need a running Kubernetes cluster. You can use Minikube, KinD, or a managed Kubernetes service.
+3. **kubectl**: Make sure `kubectl` is installed and configured to communicate with your Kubernetes cluster.
+
+### Step-by-Step Installation
+
+1. **Update Your System**
+
+   ```bash
+   sudo yum update -y
+   ```
+
+2. **Install `curl` and `wget`**
+
+   ```bash
+   sudo yum install -y curl wget
+   ```
+
+3. **Download and Install Istio**
+
+   1. **Download Istio**: Go to the [Istio releases page](https://github.com/istio/istio/releases) and find the latest release. Replace `x.y.z` with the actual version number.
+
+      ```bash
+      curl -L https://istio.io/downloadIstio | sh -
+      ```
+
+   2. **Move to the Istio Directory**:
+
+      ```bash
+      cd istio-x.y.z
+      ```
+
+   3. **Add `istioctl` to Your PATH**:
+
+      ```bash
+      export PATH=$PATH:$PWD/bin
+      ```
+
+      To make this change permanent, you can add the above line to your shell configuration file (e.g., `~/.bashrc` or `~/.bash_profile`).
+
+4. **Install Istio Using `istioctl`**
+
+   ```bash
+   istioctl install --set profile=default
+   ```
+
+   This installs Istio with the default configuration. You can also customize your installation with different profiles or configurations.
+
+5. **Verify the Installation**
+
+   Ensure that the Istio components are running:
+
+   ```bash
+   kubectl get pods -n istio-system
+   ```
+
+   You should see several pods related to Istio in the `Running` state.
+
+6. **Enable Automatic Sidecar Injection**
+
+   Label the namespace where you want to enable automatic sidecar injection:
+
+   ```bash
+   kubectl label namespace default istio-injection=enabled
+   ```
+
+   Replace `default` with your desired namespace.
+
+7. **Deploy a Sample Application (Optional)**
+
+   You can deploy a sample application to test your Istio installation:
+
+   ```bash
+   kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+   ```
+
+   Expose the application using an Istio Gateway:
+
+   ```bash
+   kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+   ```
+
+8. **Access the Application**
+
+   Check the service URL and access your application:
+
+   ```bash
+   kubectl get svc istio-ingressgateway -n istio-system
+   ```
+
+   The external IP address or hostname provided by the `istio-ingressgateway` service can be used to access the application.
+
+### Troubleshooting
+
+- **Check Logs**: If something isn't working as expected, check the logs of the Istio pods:
+
+  ```bash
+  kubectl logs <pod-name> -n istio-system
+  ```
+
+- **Verify Components**: Ensure all Istio components are healthy and running:
+
+  ```bash
+  kubectl get pods -n istio-system
+  ```
+
+By following these steps, you should have Istio up and running on your CentOS system with your Kubernetes cluster.
